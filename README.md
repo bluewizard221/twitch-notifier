@@ -4,6 +4,8 @@
 ## 説明
 Twitchで配信を始めた時にtwitterに自動的にツイートするbotです。
 
+以下のようにツイートされます：
+[![Image from Gyazo](https://i.gyazo.com/65d01ab3f039ea959f8a6e6be3f7f0b8.png)](https://gyazo.com/65d01ab3f039ea959f8a6e6be3f7f0b8)
 
 ## Usage
 ```
