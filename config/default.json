@@ -1,0 +1,14 @@
+{
+  "config": {
+    "pidFile": PIDファイルのファイルパス,
+    "twitchUserId": ユーザーID,
+    "twitchCallBack": twitchに通知するコールバックURL,
+    "twitchClientId": twitch webhook APIのクライアントID,
+    "twitchSecret": twitch webhook APIのために設定するシークレット(任意の文字列),
+    "twitchChannel": "https://twitch.tv/通知したいチャンネル名",
+    "twitterConsumerKey": twitter APIのコンシューマキー,
+    "twitterConsumerSecret": twitter APIのコンシューマシークレット,
+    "twitterAccessTokenKey": twitter APIのトークンキー,
+    "twitterAccessTokenSecret": twitter APIのトークンシークレット
+  }
+}
