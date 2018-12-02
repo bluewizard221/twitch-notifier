@@ -52,6 +52,7 @@ twitch-notifier.js [-d]
 <dt>twitterAccessTokenSecret</dt>
   <dd>twitter APIのアクセストークンシークレットを設定します。</dd>
 </dl>
+
 ---
 
 3. スクリプトを起動します。例ではバックグラウンドに落としていますが、デーモン化したい場合は適宜デーモン化してください。
