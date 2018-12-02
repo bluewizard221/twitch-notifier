@@ -18,16 +18,18 @@ twitch-notifier.js [-d]
 ## 動作確認済み環境・必要モジュール
 
 * 動作確認済み環境
-  ・FreeBSD 11.2-RELEASE上のnode v8.12.0にて動作を確認出来ています。
+
+  FreeBSD 11.2-RELEASE上のnode v8.12.0にて動作を確認出来ています。
 * 必要モジュール
-  ・twitch-webhook, twitter, request, fs, config, log4js
+
+  twitch-webhook, twitter, request, fs, config, log4js
 
 
 ## 使用手順
 1. 上記必要モジュールをインストールします。
 
 2. config/default.jsonに適当な値を入力します。
-
+---
 <dl>
 <dt>pidFile</dt>
   <dd>pidファイルのファイルパスを設定します。-dオプションを付けて起動している時に、HUPシグナルを受け取った際にここに記述されるプロセスIDに対してHUPシグナルを送ります。</dd>
@@ -50,6 +52,7 @@ twitch-notifier.js [-d]
 <dt>twitterAccessTokenSecret</dt>
   <dd>twitter APIのアクセストークンシークレットを設定します。</dd>
 </dl>
+---
 
 3. スクリプトを起動します。例ではバックグラウンドに落としていますが、デーモン化したい場合は適宜デーモン化してください。
 ex)
