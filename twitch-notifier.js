@@ -79,6 +79,7 @@ fs.writeFile(pidFile, process.pid, (err) => {
   }
 })
 
+
 // set listener for topic
 twitchWebhook.on('streams', ({ event }) => {
     logger.debug(event)
@@ -122,19 +123,14 @@ twitchWebhook.on('streams', ({ event }) => {
     })
 })
 
+
+// subscribe 
 twitchWebhook.subscribe('streams', {
   user_id: twitchUserId
 })
 
-// renew the subscription when it expires
-twitchWebhook.on('unsubscibe', (obj) => {
-  logger.info('unsubscribe event caught. now re-subscribinng...')
 
-  twitchWebhook.subscribe('streams', {
-    user_id: twitchUserId
-  })
-})
-
+// process event handlers
 process.on('SIGINT', () => {
   logger.info('SIGINT caught. unsubscribe then shutdown..')
 
