@@ -79,6 +79,19 @@ fs.writeFile(pidFile, process.pid, (err) => {
   }
 })
 
+function twitterpost(game_name, streaming_title) {
+    var content = 'Live: ' + game_name + '\n\n'
+    content += streaming_title + '\n\n'
+    content += twitchChannel
+
+    twi_api.post('statuses/update',
+		 {status: content},
+		 function(error, tweet, response) {
+	if (error) {
+	    logger.error(error)
+	}
+    })
+}
 
 // set listener for topic
 twitchWebhook.on('streams', ({ event }) => {
@@ -102,25 +115,19 @@ twitchWebhook.on('streams', ({ event }) => {
 	json: true
     }
 
-    request(options, function (error, response, body) {
-	if (!error) {
-	    //success
-	    var content = 'Live: ' + body.data[0].name + '\n\n'
-	    content += event.data[0].title + '\n\n'
-	    content += twitchChannel
-
-	    twi_api.post('statuses/update',
-			{status: content},
-			function(error, tweet, response) {
-		if (error) {
-		    logger.error(error)
-		}
-	    })
-	} else {
-	    //sending request error
-	    logger.error(error)
-	}
-    })
+    if (event.data[0].game_id == '0') {
+	twitterpost('', event.data[0].title)
+    } else {
+	request(options, function (error, response, body) {
+	    if (!error) {
+		//success
+		twitterpost(body.data[0].name, event.data[0].title)
+	    } else {
+		//sending request error
+		logger.error(error)
+	    }
+	})
+    }
 })
 
 
