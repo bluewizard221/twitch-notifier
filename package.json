@@ -1,0 +1,28 @@
+{
+  "name": "twtich-notifier",
+  "version": "1.0.0",
+  "description": "twitch streaming notification bot for twitter",
+  "main": "twitch-notifier.js",
+  "dependencies": {
+    "config": "^3.2.1",
+    "fs": "^0.0.2",
+    "log4js": "^4.5.1",
+    "request": "^2.88.0",
+    "twitch-webhook": "^1.2.4",
+    "twitter": "^1.7.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bluewizard221/twitch-notifier.git"
+  },
+  "author": "bluewizard221",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/bluewizard221/twitch-notifier/issues"
+  },
+  "homepage": "https://github.com/bluewizard221/twitch-notifier#readme"
+}
