@@ -49,6 +49,13 @@ if (!twitchSecret) {
   process.exit(5)
 }
 
+const twitchOAuthtoken = confFile.config.twitchOAuthtoken
+
+if (!twitchOAuthtoken) {
+  logger.error('twitch OAuth token for webhook api not provided')
+  process.exit(5)
+}
+
 const twitchChannel = confFile.config.twitchChannel
 
 if (!twitchChannel) {
@@ -67,6 +74,7 @@ const twitchWebhook = new TwitchWebhook({
   client_id: clientId,
   callback: callBack,
   secret: twitchSecret,
+  oauth_token: twitchOAuthtoken,
   listen: {
     port: 3000,
     autoStart: true
@@ -93,7 +101,7 @@ function twitterpost(game_name, streaming_title) {
     })
 }
 
-// set listener for topic
+// set listener for streaming topic
 twitchWebhook.on('streams', ({ event }) => {
     logger.debug(event)
 
@@ -106,6 +114,7 @@ twitchWebhook.on('streams', ({ event }) => {
 
     const headers = {
 	'Client-ID': clientId,
+	'Authorization': 'Bearer ' + twitchOAuthtoken,
     }
 
     const options = {
@@ -135,7 +144,6 @@ twitchWebhook.on('streams', ({ event }) => {
 twitchWebhook.subscribe('streams', {
   user_id: twitchUserId
 })
-
 
 // process event handlers
 process.on('SIGINT', () => {
