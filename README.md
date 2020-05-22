@@ -45,6 +45,8 @@ twitch-notifier.js [-d]
   <dd>twitch APIのクライアントIDを設定します。</dd>
 <dt>twitchSecret</dt>
   <dd>twitch webhook APIで使用するシークレットを設定します。任意の文字列を使ってください。</dd>
+<dt>twitchOAuthtoken</dt>
+  <dd>twitch APIのOAuthトークンを設定します。</dd>
 <dt>twitchChannel</dt>
   <dd>実際に通知したいtwitchのチャンネル名を設定します。ここに書いたURLがツイートに載ります。</dd>
 <dt>twitterConsumerKey</dt>
