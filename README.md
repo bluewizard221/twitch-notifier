@@ -23,7 +23,7 @@ twitch-notifier.js [-d]
 
 * 動作確認済み環境
 
-  FreeBSD 11.2-RELEASE上のnode v8.12.0にて動作を確認出来ています。
+  FreeBSD 12.1-RELEASE上のnode v12.16.1にて動作を確認出来ています。
 * 必要モジュール
 
   twitch-webhook, twitter, request, fs, config, log4js
@@ -33,6 +33,22 @@ twitch-notifier.js [-d]
 1. 上記必要モジュールをインストールします。
 
 2. config/default.jsonに適当な値を入力します。
+  twitch APIのOAuthトークンは以下のようにcurlで取得出来ます。
+
+  OAuthトークンについての詳細は以下を参照してください。
+  https://dev.twitch.tv/docs/authentication/
+
+  scopeについては以下を参照してください。
+  https://dev.twitch.tv/docs/authentication/#scopes
+
+```
+curl -k 'https://id.twitch.tv/oauth2/token? \
+client_id=<Client-ID>& \
+client_secret=<ClientSecret>& \
+grant_type=client_credentials& \
+scope=user:read:broadcast+analytics:read:games' \
+-X POST
+```
 ---
 <dl>
 <dt>pidFile</dt>
