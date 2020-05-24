@@ -32,16 +32,14 @@ twitch-notifier.js [-d]
 ## 使用手順
 1. 上記必要モジュールをインストールします。
 
-2. config/default.jsonに適当な値を入力します。
-  twitch APIのOAuthトークンは以下のようにcurlで取得出来ます。
+2. config/default.jsonに適当な値を入力します。  
+twitch APIのOAuthトークンは以下のようにcurlで取得出来ます。  
+OAuthトークンについての詳細は以下を参照してください。  
+https://dev.twitch.tv/docs/authentication/  
+scopeについては以下を参照してください。  
+https://dev.twitch.tv/docs/authentication/#scopes
 
-  OAuthトークンについての詳細は以下を参照してください。
-  https://dev.twitch.tv/docs/authentication/
-
-  scopeについては以下を参照してください。
-  https://dev.twitch.tv/docs/authentication/#scopes
-
-```
+```bash
 curl -k 'https://id.twitch.tv/oauth2/token? \
 client_id=<Client-ID>& \
 client_secret=<ClientSecret>& \
