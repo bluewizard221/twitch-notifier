@@ -23,7 +23,7 @@ twitch-notifier.js [-d]
 
 * 動作確認済み環境
 
-  FreeBSD 12.1-RELEASE上のnode v12.16.1にて動作を確認出来ています。
+  FreeBSD 12.1-RELEASE上のnode v15.3.0にて動作を確認出来ています。
 * 必要モジュール
 
   twitch-webhook, twitter, request, fs, config, log4js
