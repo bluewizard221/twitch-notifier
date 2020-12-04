@@ -71,6 +71,8 @@ scope=user:read:broadcast+analytics:read:games' \
   <dd>twitter APIのアクセストークンキーを設定します。</dd>
 <dt>twitterAccessTokenSecret</dt>
   <dd>twitter APIのアクセストークンシークレットを設定します。</dd>
+<dt>discordWebhookURL</dt>
+  <dd>discordへの通知のためのwebhook URLを設定します。</dd>
 </dl>
 
 ---
