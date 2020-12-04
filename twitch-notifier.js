@@ -63,6 +63,13 @@ if (!twitchChannel) {
   process.exit(6)
 }
 
+const discordWebhookURL = confFile.config.discordWebhookURL
+
+if (!discordWebhookURL) {
+  logger.error('discord webhook URL not provided')
+  process.exit(7)
+}
+
 const twi_api = new twitter({
 	consumer_key: confFile.config.twitterConsumerKey,
 	consumer_secret: confFile.config.twitterConsumerSecret,
@@ -81,7 +88,7 @@ const twitchWebhook = new TwitchWebhook({
   }
 })
 
-fs.writeFile(pidFile, process.pid, (err) => {
+fs.writeFile(pidFile, process.pid.toString(), (err) => {
   if (err) {
     logger.error(err)
   }
@@ -96,6 +103,28 @@ function twitterpost(game_name, streaming_title) {
 		 {status: content},
 		 function(error, tweet, response) {
 	if (error) {
+	    logger.error(error)
+	}
+    })
+
+    const discordwhoptions = {
+	url: discordWebhookURL,
+	method: 'POST',
+	headers: {
+		"Content-type": "application/json",
+	      },
+	json: {
+		"username": "scartwitchnotifier",
+		"content": "<@&784406554236944405> " + content,
+	}
+    }
+
+    request(discordwhoptions, function (error, response, body) {
+	if (!error) {
+	    //success
+	    logger.info('posting infomation to discord webhook succeeded')
+	} else {
+	    //sending request error
 	    logger.error(error)
 	}
     })
@@ -124,7 +153,7 @@ twitchWebhook.on('streams', ({ event }) => {
 	json: true
     }
 
-    if (event.data[0].game_id == '0') {
+    if (event.data[0].game_id == '0' || event.data[0].game_id == '') {
 	twitterpost('', event.data[0].title)
     } else {
 	request(options, function (error, response, body) {
