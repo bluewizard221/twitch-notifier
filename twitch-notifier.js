@@ -70,6 +70,13 @@ if (!discordWebhookURL) {
   process.exit(7)
 }
 
+const discordRoleId = confFile.config.discordRoleId
+
+if (!discordRoleId) {
+  logger.error('discord roll id is not provided')
+  process.exit(7)
+}
+
 const twi_api = new twitter({
 	consumer_key: confFile.config.twitterConsumerKey,
 	consumer_secret: confFile.config.twitterConsumerSecret,
@@ -114,8 +121,8 @@ function twitterpost(game_name, streaming_title) {
 		"Content-type": "application/json",
 	      },
 	json: {
-		"username": "scartwitchnotifier",
-		"content": "<@&784406554236944405> " + content,
+		"username": "twitchnotifier",
+		"content": "<@&" + discordRoleId + "> " + content,
 	}
     }
 

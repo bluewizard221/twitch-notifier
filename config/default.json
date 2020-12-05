@@ -1,14 +1,17 @@
 {
   "config": {
-    "pidFile": PIDファイルのファイルパス,
+    "pidFile": "PIDファイルのファイルパス",
     "twitchUserId": ユーザーID,
-    "twitchCallBack": twitchに通知するコールバックURL,
-    "twitchClientId": twitch webhook APIのクライアントID,
-    "twitchSecret": twitch webhook APIのために設定するシークレット(任意の文字列),
+    "twitchCallBack": "twitchに通知するコールバックURL",
+    "twitchClientId": "twitch webhook APIのクライアントID",
+    "twitchSecret": "twitch webhook APIのために設定するシークレット(任意の文字列)",
+    "twitchOAuthtoken": "twitch webhook APIのためのOAuthトークン（60日ごとに更新の必要あり）",
     "twitchChannel": "https://twitch.tv/通知したいチャンネル名",
-    "twitterConsumerKey": twitter APIのコンシューマキー,
-    "twitterConsumerSecret": twitter APIのコンシューマシークレット,
-    "twitterAccessTokenKey": twitter APIのトークンキー,
-    "twitterAccessTokenSecret": twitter APIのトークンシークレット
+    "twitterConsumerKey": "twitter APIのコンシューマキー",
+    "twitterConsumerSecret": "twitter APIのコンシューマシークレット",
+    "twitterAccessTokenKey": "twitter APIのトークンキー",
+    "twitterAccessTokenSecret": "twitter APIのトークンシークレット", 
+    "discordWebhookURL": "discordのwebhook URL",
+    "discordRoleId": "通知先のRole ID"
   }
 }

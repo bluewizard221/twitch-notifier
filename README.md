@@ -32,8 +32,7 @@ twitch-notifier.js [-d]
 ## 使用手順
 1. 上記必要モジュールをインストールします。
 
-2. config/default.jsonに適当な値を入力します。  
-twitch APIのOAuthトークンは以下のようにcurlで取得出来ます。  
+2. twitch APIのOAuthトークンを以下のようにcurlで取得します。  
 OAuthトークンについての詳細は以下を参照してください。  
 https://dev.twitch.tv/docs/authentication/  
 scopeについては以下を参照してください。  
@@ -47,6 +46,23 @@ grant_type=client_credentials& \
 scope=user:read:broadcast+analytics:read:games' \
 -X POST
 ```
+
+3. discord通知用にwebhookを作成します。  
+webhookの詳細・作成方法については以下を参照してください。
+https://support.discord.com/hc/ja/articles/228383668-%E3%82%BF%E3%82%A4%E3%83%88%E3%83%AB-Webhooks%E3%81%B8%E3%81%AE%E5%BA%8F%E7%AB%A0
+
+4. discord通知用のRoleをサーバーの中に作成します。 
+
+5. discord通知用Role IDを取得します。  
+Roleを追加したサーバー内の任意のテキストチャンネル内で  
+以下のように入力するとRole IDを取得することが出来ます。
+
+```
+\@Role名
+```
+
+6. 設定ファイル(config/default.json)に以下の記述を書き入れます。
+
 ---
 <dl>
 <dt>pidFile</dt>
@@ -73,11 +89,13 @@ scope=user:read:broadcast+analytics:read:games' \
   <dd>twitter APIのアクセストークンシークレットを設定します。</dd>
 <dt>discordWebhookURL</dt>
   <dd>discordへの通知のためのwebhook URLを設定します。</dd>
+<dt>discordRoleId</dt>
+  <dd>discordで通知する宛先のRole IDを設定します。</dd>
 </dl>
 
 ---
 
-3. スクリプトを起動します。例ではバックグラウンドに落としていますが、デーモン化したい場合は適宜デーモン化してください。
+7. スクリプトを起動します。例ではバックグラウンドに落としていますが、デーモン化したい場合は適宜デーモン化してください。
 ex)
 ```bash
 (./twitch-notifier.js -d) &
