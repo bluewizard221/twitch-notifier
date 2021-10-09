@@ -2,7 +2,7 @@
 
 
 ## 説明
-Twitchで配信を始めた時にtwitterに自動的にツイートするbotです。
+Twitchで配信を始めた時にtwitterとdiscordに自動的に情報を発信するbotです。
 
 ## Usage
 ```
