@@ -1,5 +1,8 @@
 {
   "config": {
+    "isNgrok": false,
+    "rphostName": "リバースプロクシ用のサーバ名（空白可）",
+    "rpportNumber": リバースプロクシ用のポート番号（空白可）,
     "pidFile": "PIDファイルのファイルパス",
     "twitchUserName": "ユーザー名(アルファベット)",
     "twitchClientId": "twitch APIのクライアントID",

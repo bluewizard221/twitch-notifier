@@ -6,7 +6,7 @@ const fs = require('fs');
 const { ClientCredentialsAuthProvider } = require('@twurple/auth');
 const { ApiClient } = require('@twurple/api');
 const {
-	DirectConnectionAdapter,
+	ReverseProxyAdapter,
 	EventSubChannelUpdateEvent,
 	EventSubListener,
 } = require('@twurple/eventsub');
@@ -15,50 +15,65 @@ const twitter = require('twitter');
 const Discord = require('discord.js');
 
 log4js.configure({
-  appenders: { system: { type: 'dateFile', filename: 'logs/twitch-notifier.log', pattern: "-yyyyMMdd", compress: true } },
+  appenders: { system: { type: 'dateFile', filename: 'logs/twitch-notifier.log', pattern: "yyyyMMdd", compress: true } },
   categories: { default: { appenders: ['system'], level: 'debug' } }
 });
 
 const logger = log4js.getLogger('system');
 
+if (confFile.config.isNgrok === null) {
+  logger.error('isNgrok is not provided');
+  process.exit(1);
+}
+
+if (confFile.config.isNgrok == false && !confFile.config.rphostName) {
+  logger.error('Hostname for reverse proxy is not provided');
+  process.exit(2);
+}
+
+if (confFile.config.isNgrok == false && !confFile.config.rpportNumber) {
+  logger.error('Port number for reverse proxy is not provided');
+  process.exit(3);
+}
+
 if (!confFile.config.pidFile) {
   logger.error('Pidfile is not provided');
-  process.exit(1);
+  process.exit(4);
 }
 
 if (!confFile.config.twitchClientId) {
   logger.error('Twitch Client ID not provided');
-  process.exit(2);
+  process.exit(5);
 }
 
 if (!confFile.config.twitchUserName) {
   logger.error('twitch username not provided');
-  process.exit(4);
+  process.exit(6);
 }
 
 if (!confFile.config.twitchSecret) {
   logger.error('twitch secret for webhook api not provided');
-  process.exit(5);
+  process.exit(7);
 }
 
 if (!confFile.config.twitchChannel) {
   logger.error('twitch channel URL not provided');
-  process.exit(6);
+  process.exit(8);
 }
 
 if (!confFile.config.discordChannel) {
   logger.error('discord channel not provided');
-  process.exit(7);
+  process.exit(9);
 }
 
 if (!confFile.config.discordToken) {
   logger.error('discord token not provided');
-  process.exit(7);
+  process.exit(10);
 }
 
 if (!confFile.config.discordRoleId) {
   logger.error('discord roll id is not provided');
-  process.exit(7);
+  process.exit(11);
 }
 
 const DiscordClient = new Discord.Client({
@@ -81,11 +96,21 @@ fs.writeFile(confFile.config.pidFile, process.pid.toString(), (err) => {
 const authProvider = new ClientCredentialsAuthProvider(confFile.config.twitchClientId, confFile.config.twitchSecret);
 const apiClient = new ApiClient({ authProvider: authProvider });
 const secret = Math.random().toString(32).substring(2);
+let adapter;
+
+if (confFile.config.isNgrok) {
+    adapter = new NgrokAdapter();
+} else {
+    adapter = new ReverseProxyAdapter({
+	hostName: confFile.config.rphostName,
+	port: confFile.config.rpportNumber,
+    });
+}
 
 const listener = new EventSubListener({
-	apiClient,
-	adapter: new NgrokAdapter(),
-	secret
+    apiClient,
+    adapter,
+    secret
 });
 
 function twitterpost(game_name, streaming_title) {
@@ -143,7 +168,17 @@ process.on('SIGINT', () => {
   })();
 
   process.exit(0);
-})
+});
+
+process.on('SIGTERM', () => {
+  logger.info('SIGTERM caught. unsubscribe then shutdown..');
+
+  (async function(){
+    await apiClient.eventSub.deleteAllSubscriptions();
+  })();
+
+  process.exit(0);
+});
 
 process.on('SIGHUP', () => {
 
@@ -153,25 +188,20 @@ process.on('SIGHUP', () => {
     process.exit(0);
   }
 
-  logger.info('SIGHUP caught. unlisten/unsubscribe then re-subscribe..');
+  logger.info('SIGHUP caught. unsubscribe then re-subscribe..');
 
   // unsubscribe from all topics
   (async function(){
     await apiClient.eventSub.deleteAllSubscriptions();
-    await listener.unlisten();
   })();
 
-  logger.info('unlistened. resubbing...');
+  logger.info('unsubscribed. resubbing...');
   
   // subscribe again
-  (async function(){
-    await listener.listen();
-  })();
-
   twitchsubscribe();
 
   logger.info('re-subscribed.');
-})
+});
 
 init();
 twitchsubscribe();
